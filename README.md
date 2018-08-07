@@ -21,7 +21,7 @@ docker build -t elswork/tf-jupyterlab:latest .
 ## My Real Usage Example
 
 In order everyone could take full advantages of the usage of this docker container, I'll describe my own real usage setup.
-For Python2 replace latest by latest-py2 tag.
+For arm32v7 architecture replace latest by arm32v7 tag.
 
 ```sh
 docker run -d -p 8888:8888 elswork/tf-jupyterlab:latest
