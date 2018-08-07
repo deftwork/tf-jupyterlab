@@ -1,6 +1,6 @@
 # JupyterLab over a Tensorflow
 
-A [Docker](http://docker.com) image for AMD & ARM devices with [Tensorflow](https://www.tensorflow.org/) an open source software library for numerical computation using data flow graphs that will let you play and learn distinct Machine Learning techniques and with [JupyterLab](https://github.com/jupyterlab/jupyterlab) an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and explanatory text. Computational Narratives as the Engine of Collaborative Data Science. All this under Python language.
+A [Docker](http://docker.com) image for AMD & ARM devices with [Tensorflow](https://www.tensorflow.org/) an open source software library for numerical computation using data flow graphs that will let you play and learn distinct Machine Learning techniques and with [JupyterLab](https://github.com/jupyterlab/jupyterlab) an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and explanatory text. Computational Narratives as the Engine of Collaborative Data Science. All this under Python3 language.
 
 > Be aware! You should read carefully the usage documentation of every tool!
 
@@ -16,12 +16,6 @@ Build Python3 flavour for amd64 or arm32v7 architecture (thanks to its [Multi-Ar
 
 ```sh
 docker build -t elswork/tf-jupyterlab:latest .
-```
-
-Build Python2 flavour for amd64 or arm32v7 architecture 
-
-```sh
-docker build -t elswork/tf-jupyterlab:latest-py2 .
 ```
 
 ## My Real Usage Example
