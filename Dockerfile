@@ -37,6 +37,6 @@ COPY notebooks /notebooks
 # TensorBoard & Jupyter
 EXPOSE 6006 8888
 
-WORKDIR "/notebooks"
+WORKDIR /notebooks
 
-CMD jupyter lab --ip=* --no-browser --allow-root
+CMD jupyter lab --ip=0.0.0.0 --no-browser --allow-root
