@@ -29,8 +29,6 @@ RUN  pip3 --no-cache-dir install \
      && \
      python3 -m ipykernel.kernelspec	
 
-COPY jupyter_notebook_config.py /root/.jupyter/
-
 # Copy sample notebooks.
 COPY notebooks /notebooks
 
