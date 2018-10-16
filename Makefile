@@ -13,12 +13,12 @@ push:
 deploy: build tag push
 manifest:
 	docker manifest create $(NAME):`cat VERSION` $(NAME):amd64-`cat VERSION` \
-	$(NAME):arm32v7-`cat VERSION-arm32v7`
+	$(NAME):arm32v7-`cat VERSION`
 	docker manifest push --purge $(NAME):`cat VERSION`
 	docker manifest create $(NAME):latest $(NAME):amd64 $(NAME):arm32v7
 	docker manifest push --purge $(NAME):latest
 start:
-	docker run -d -p 8888:8888 -p 0.0.0.0:6006:6006 --restart=unless-stopped $(NAME):latest
+	docker run -d -p 8888:8888 -p 0.0.0.0:6006:6006 --restart=unless-stopped $(NAME):amd64
 
 build-arm:
 	docker build --no-cache -t $(NAME):arm32v7 --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
