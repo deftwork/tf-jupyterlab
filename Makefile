@@ -1,5 +1,8 @@
 NAME ?= elswork/tf-jupyterlab
 
+
+start:
+	docker run -d -p 8888:8888 -p 0.0.0.0:6006:6006 --restart=unless-stopped $(NAME):latest
 build:
 	docker build --no-cache -t $(NAME):latest --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 	--build-arg VCS_REF=`git rev-parse --short HEAD` \
@@ -11,6 +14,8 @@ push:
 	docker push $(NAME):latest	
 deploy: build tag push
 
+start-arm:
+	docker run -d -p 8888:8888 -p 0.0.0.0:6006:6006 --restart=unless-stopped $(NAME):arm32v7
 build-arm:
 	docker build --no-cache -t $(NAME):arm32v7 --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 	--build-arg VCS_REF=`git rev-parse --short HEAD` \

@@ -27,7 +27,9 @@ RUN  pip3 --no-cache-dir install \
      #sklearn \
      #pandas \
      && \
-     python3 -m ipykernel.kernelspec	
+     python3 -m ipykernel.kernelspec
+
+COPY jupyter_notebook_config.py /root/.jupyter/
 
 # Copy sample notebooks.
 COPY notebooks /notebooks
@@ -37,4 +39,4 @@ EXPOSE 6006 8888
 
 WORKDIR /notebooks
 
-CMD jupyter lab --ip=0.0.0.0 --no-browser --allow-root
+CMD jupyter lab --ip=* --no-browser --allow-root
