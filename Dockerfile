@@ -20,14 +20,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN  pip3 --no-cache-dir install \
-     ipykernel \
-     jupyterlab \
-     #matplotlib \
-     #sklearn \
-     #pandas \
-     && \
-     python3 -m ipykernel.kernelspec
+#RUN pip3 --no-cache-dir install --upgrade pip setuptools wheel
+
+RUN pip3 --no-cache-dir install \
+    python-language-server \
+    ipykernel \
+    jupyterlab \
+    #matplotlib \
+    #sklearn \
+    #pandas \
+    && \
+    python3 -m ipykernel.kernelspec
 
 COPY jupyter_notebook_config.py /root/.jupyter/
 
