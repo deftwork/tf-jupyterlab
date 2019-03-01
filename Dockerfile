@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN pip3 --no-cache-dir install --upgrade pip setuptools wheel
 
-RUN pip3 --no-cache-dir install \
+RUN python3 -m pip --no-cache-dir install \
     #python-language-server \
     ipykernel \
     jupyterlab \
