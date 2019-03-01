@@ -18,7 +18,7 @@ This image is the base image for a set of images [Data Science Docker Stacks](ht
 
 ## Build Instructions
 
-Build Python3 flavour for amd64 or arm32v7 architecture (thanks to its [Multi-Arch](https://blog.docker.com/2017/11/multi-arch-all-the-things/) base image)
+Build Python3 flavour for amd64 or armv7l architecture (thanks to its [Multi-Arch](https://blog.docker.com/2017/11/multi-arch-all-the-things/) base image)
 
 ```sh
 docker build -t elswork/tf-jupyterlab:latest .
