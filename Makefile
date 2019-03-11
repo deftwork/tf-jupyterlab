@@ -1,9 +1,13 @@
 SNAME ?= tf-jupyterlab
 NAME ?= elswork/$(SNAME)
-GOARCH ?= armv7l
-#GOARCH ?= amd64
-ARCH2 ?= armv7l
 VER ?= `cat VERSION`
+BASE ?= tensorflow-diy
+BASENAME ?= elswork/$(BASE)
+ARCH2 ?= armv7l
+GOARCH := $(shell uname -m)
+ifeq ($(GOARCH),x86_64)
+	GOARCH := amd64
+endif
 
 # HELP
 # This will output the help for each task
@@ -18,9 +22,16 @@ help: ## This help.
 # DOCKER TASKS
 # Build the container
 
+debug: ## Build the container
+	docker build -t $(NAME):$(GOARCH) --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
+	--build-arg VCS_REF=`git rev-parse --short HEAD` \
+	--build-arg BASEIMAGE=$(BASENAME):$(GOARCH)_$(VER) \
+	--build-arg VERSION=$(SNAME)_$(GOARCH)_$(VER) .
+
 build: ## Build the container
 	docker build --no-cache -t $(NAME):$(GOARCH) --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 	--build-arg VCS_REF=`git rev-parse --short HEAD` \
+	--build-arg BASEIMAGE=$(BASENAME):$(GOARCH)_$(VER) \
 	--build-arg VERSION=$(SNAME)_$(GOARCH)_$(VER) . > ../builds/$(SNAME)_$(GOARCH)_$(VER)_`date +"%Y%m%d_%H%M%S"`.txt
 tag: ## Tag the container
 	docker tag $(NAME):$(GOARCH) $(NAME):$(GOARCH)_$(VER)
@@ -34,4 +45,4 @@ manifest: ## Create an push manifest
 	docker manifest create $(NAME):latest $(NAME):$(GOARCH) $(NAME):$(ARCH2)
 	docker manifest push --purge $(NAME):latest
 start:
-	docker run -d -p 8888:8888 -p 0.0.0.0:6006:6006 --restart=unless-stopped $(NAME):amd64
+	docker run -d -p 8888:8888 -p 0.0.0.0:6006:6006 --restart=unless-stopped $(NAME):$(GOARCH)
