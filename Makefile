@@ -44,5 +44,5 @@ manifest: ## Create an push manifest
 	docker manifest push --purge $(NAME):$(VER)
 	docker manifest create $(NAME):latest $(NAME):$(GOARCH) $(NAME):$(ARCH2)
 	docker manifest push --purge $(NAME):latest
-start:
+start: ## Start the container
 	docker run -d -p 8888:8888 -p 0.0.0.0:6006:6006 --restart=unless-stopped $(NAME):$(GOARCH)
