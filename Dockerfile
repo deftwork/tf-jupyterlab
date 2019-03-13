@@ -15,6 +15,12 @@ LABEL mantainer="Eloy Lopez <elswork@gmail.com>" \
     org.label-schema.version=$VERSION \
     org.label-schema.schema-version="1.0"
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libzmq3-dev \
+    && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN pip3 --no-cache-dir install \
     ipykernel \
     jupyterlab \
