@@ -1,12 +1,18 @@
 SNAME ?= tf-jupyterlab
 NAME ?= elswork/$(SNAME)
 VER ?= `cat VERSION`
-BASE ?= tensorflow-diy
+VEROCV ?= 
+BASE ?= tf-opencv
+#BASE ?= tensorflow-diy
 BASENAME ?= elswork/$(BASE)
 ARCH2 ?= armv7l
 GOARCH := $(shell uname -m)
 ifeq ($(GOARCH),x86_64)
 	GOARCH := amd64
+endif
+ifeq ($(BASE),tf-opencv)
+	NAME := elswork/tf-juplab-ocv
+	VEROCV := -3.4.3
 endif
 
 # HELP
@@ -25,13 +31,13 @@ help: ## This help.
 debug: ## Build the container
 	docker build -t $(NAME):$(GOARCH) --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 	--build-arg VCS_REF=`git rev-parse --short HEAD` \
-	--build-arg BASEIMAGE=$(BASENAME):$(GOARCH)_$(VER) \
+	--build-arg BASEIMAGE=$(BASENAME):$(GOARCH)_$(VER)$(VEROCV) \
 	--build-arg VERSION=$(SNAME)_$(GOARCH)_$(VER) .
 
 build: ## Build the container
 	docker build --no-cache -t $(NAME):$(GOARCH) --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 	--build-arg VCS_REF=`git rev-parse --short HEAD` \
-	--build-arg BASEIMAGE=$(BASENAME):$(GOARCH)_$(VER) \
+	--build-arg BASEIMAGE=$(BASENAME):$(GOARCH)_$(VER)$(VEROCV) \
 	--build-arg VERSION=$(SNAME)_$(GOARCH)_$(VER) . > ../builds/$(SNAME)_$(GOARCH)_$(VER)_`date +"%Y%m%d_%H%M%S"`.txt
 tag: ## Tag the container
 	docker tag $(NAME):$(GOARCH) $(NAME):$(GOARCH)_$(VER)
