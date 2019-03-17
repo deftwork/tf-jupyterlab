@@ -32,6 +32,12 @@ In order everyone could take full advantages of the usage of this docker contain
 docker run -d -p 8888:8888 elswork/tf-jupyterlab:latest
 ```
 
+If you want to use a version that include OpenCV you can use this:
+
+```sh
+docker run -d -p 8888:8888 elswork/tf-jupyterlab:latest_ocv
+```
+
 A more complex sample:
 
 ```sh

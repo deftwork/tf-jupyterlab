@@ -1,7 +1,8 @@
 SNAME ?= tf-jupyterlab
 NAME ?= elswork/$(SNAME)
 VER ?= `cat VERSION`
-VEROCV ?= 
+VEROCV ?=
+OCV ?=  
 BASE ?= tf-opencv
 #BASE ?= tensorflow-diy
 BASENAME ?= elswork/$(BASE)
@@ -11,8 +12,9 @@ ifeq ($(GOARCH),x86_64)
 	GOARCH := amd64
 endif
 ifeq ($(BASE),tf-opencv)
-	NAME := elswork/tf-juplab-ocv
+	#NAME := elswork/tf-juplab-ocv
 	VEROCV := -3.4.3
+	OCV := _ocv
 endif
 
 # HELP
@@ -32,23 +34,23 @@ debug: ## Build the container
 	docker build -t $(NAME):$(GOARCH) --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 	--build-arg VCS_REF=`git rev-parse --short HEAD` \
 	--build-arg BASEIMAGE=$(BASENAME):$(GOARCH)_$(VER)$(VEROCV) \
-	--build-arg VERSION=$(SNAME)_$(GOARCH)_$(VER) .
+	--build-arg VERSION=$(SNAME)_$(GOARCH)_$(VER)$(OCV)$(VEROCV) .
 
 build: ## Build the container
 	docker build --no-cache -t $(NAME):$(GOARCH) --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 	--build-arg VCS_REF=`git rev-parse --short HEAD` \
 	--build-arg BASEIMAGE=$(BASENAME):$(GOARCH)_$(VER)$(VEROCV) \
-	--build-arg VERSION=$(SNAME)_$(GOARCH)_$(VER) . > ../builds/$(SNAME)_$(GOARCH)_$(VER)_`date +"%Y%m%d_%H%M%S"`.txt
+	--build-arg VERSION=$(SNAME)_$(GOARCH)_$(VER)$(OCV)$(VEROCV) . > ../builds/$(SNAME)_$(GOARCH)_$(VER)$(OCV)$(VEROCV)_`date +"%Y%m%d_%H%M%S"`.txt
 tag: ## Tag the container
-	docker tag $(NAME):$(GOARCH) $(NAME):$(GOARCH)_$(VER)
+	docker tag $(NAME):$(GOARCH)$(OCV) $(NAME):$(GOARCH)_$(VER)$(OCV)$(VEROCV)
 push: ## Push the container
-	docker push $(NAME):$(GOARCH)_$(VER)
-	docker push $(NAME):$(GOARCH)	
+	docker push $(NAME):$(GOARCH)_$(VER)$(OCV)$(VEROCV)
+	docker push $(NAME):$(GOARCH)$(OCV)	
 deploy: build tag push
 manifest: ## Create an push manifest
-	docker manifest create $(NAME):$(VER) $(NAME):$(GOARCH)_$(VER) $(NAME):$(ARCH2)_$(VER)
-	docker manifest push --purge $(NAME):$(VER)
-	docker manifest create $(NAME):latest $(NAME):$(GOARCH) $(NAME):$(ARCH2)
-	docker manifest push --purge $(NAME):latest
+	docker manifest create $(NAME):$(VER)$(OCV) $(NAME):$(GOARCH)_$(VER)$(OCV)$(VEROCV) $(NAME):$(ARCH2)_$(VER)$(OCV)$(VEROCV)
+	docker manifest push --purge $(NAME):$(VER)$(OCV)
+	docker manifest create $(NAME):latest$(OCV) $(NAME):$(GOARCH)$(OCV) $(NAME):$(ARCH2)$(OCV)
+	docker manifest push --purge $(NAME):latest$(OCV)
 start: ## Start the container
-	docker run -d -p 8888:8888 -p 0.0.0.0:6006:6006 --restart=unless-stopped $(NAME):$(GOARCH)
+	docker run -d -p 8888:8888 -p 0.0.0.0:6006:6006 --restart=unless-stopped $(NAME):$(GOARCH)$(OCV)
