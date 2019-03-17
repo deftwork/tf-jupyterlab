@@ -37,7 +37,7 @@ debug: ## Build the container
 	--build-arg VERSION=$(SNAME)_$(GOARCH)_$(VER)$(OCV)$(VEROCV) .
 
 build: ## Build the container
-	docker build --no-cache -t $(NAME):$(GOARCH) --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
+	docker build --no-cache -t $(NAME):$(GOARCH)$(OCV) --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 	--build-arg VCS_REF=`git rev-parse --short HEAD` \
 	--build-arg BASEIMAGE=$(BASENAME):$(GOARCH)_$(VER)$(VEROCV) \
 	--build-arg VERSION=$(SNAME)_$(GOARCH)_$(VER)$(OCV)$(VEROCV) . > ../builds/$(SNAME)_$(GOARCH)_$(VER)$(OCV)$(VEROCV)_`date +"%Y%m%d_%H%M%S"`.txt
